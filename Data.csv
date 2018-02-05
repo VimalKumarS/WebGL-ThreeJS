@@ -1,0 +1,4 @@
+part,width,height,depth,positionx,positiony,positionz,otherinfo
+part1,50,150,150,0,0,0,info1
+part2,50,50,50,0,150,0,info2
+part3,50,50,50,100,0,0,info3

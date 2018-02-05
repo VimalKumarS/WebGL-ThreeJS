@@ -92,7 +92,7 @@ var box = (function () {
         });
     }
 
-    function AddCube(dimension,position) {
+    function AddCube(dimension, position) {
         var crate = new THREE
             .TextureLoader()
             .load("./images/crate.png");
@@ -100,38 +100,25 @@ var box = (function () {
         crate.wrapT = THREE.RepeatWrapping;
         var material = new THREE.MeshBasicMaterial({map: crate});
         var wireframeMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true, transparent: true});
-        var geometry = new THREE.CubeGeometry(dimension.width,dimension.height, dimension.depth);
+        var geometry = new THREE.CubeGeometry(dimension.width, dimension.height, dimension.depth);
         computeFaceCentroids(geometry);
         console.log(geometry)
         //geometry.applyMatrix( new THREE.Matrix4().setTranslation( 0, 10, 0 ) );
         var cube = new THREE.Mesh(geometry, material);
         cube
             .position
-            .set(position.positionx + (dimension.width )/2, 
-            position.positiony + (dimension.height )/2,
-            position.positionz + (dimension.depth )/2);
-           
+            .set(position.positionx + (dimension.width) / 2, position.positiony + (dimension.height) / 2, position.positionz + (dimension.depth) / 2);
+
         scene.add(cube);
 
-        // for (var i = 0; i < geometry.faces.length; i++) {
-        //     var spritey = makeTextSprite("text 1 ", {
-        //         fontsize: 32,
-        //         backgroundColor: {
-        //             r: 100,
-        //             g: 100,
-        //             b: 255,
-        //             a: 1
-        //         }
-        //     });
-        //     computeFaceCentroids(geometry);
-        //     spritey.position = new THREE.Vector3( position.positionx, position.positiony, position.positionz);
-        //     //  geometry
-        //     //     .faces[i]
-        //     //     .centroid
-        //     //     .clone()
-        //     //     .multiplyScalar(2.1);
-        //     scene.add(spritey);
-        // }
+        // for (var i = 0; i < geometry.faces.length; i++) {     var spritey =
+        // makeTextSprite("text 1 ", {         fontsize: 32,         backgroundColor: {
+        //            r: 100,             g: 100,             b: 255,             a: 1
+        //       }     });     computeFaceCentroids(geometry);     spritey.position =
+        // new THREE.Vector3( position.positionx, position.positiony,
+        // position.positionz);     //  geometry     //     .faces[i]     //
+        // .centroid     //     .clone()     //     .multiplyScalar(2.1);
+        // scene.add(spritey); }
     }
 
     function makeTextSprite(message, parameters) {
@@ -171,7 +158,7 @@ var box = (function () {
         // var spriteAlignment = parameters.hasOwnProperty("alignment") ?
         // 	parameters["alignment"] : THREE.SpriteAlignment.topLeft;
 
-        var spriteAlignment = new THREE.Vector2( 1, -1 );// THREE.SpriteAlignment.topLeft;
+        var spriteAlignment = new THREE.Vector2(1, -1); // THREE.SpriteAlignment.topLeft;
 
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
@@ -205,52 +192,71 @@ var box = (function () {
         return sprite;
     }
 
-    function roundRect(ctx, x, y, w, h, r) 
-{
-    ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.lineTo(x+w-r, y);
-    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-    ctx.lineTo(x+w, y+h-r);
-    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    ctx.lineTo(x+r, y+h);
-    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-    ctx.lineTo(x, y+r);
-    ctx.quadraticCurveTo(x, y, x+r, y);
-    ctx.closePath();
-    ctx.fill();
-	ctx.stroke();   
-}
+    function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    }
 
-function computeFaceCentroids( geometry ) {
+    function computeFaceCentroids(geometry) {
 
-    var f, fl, face;
+        var f,
+            fl,
+            face;
 
-    for ( f = 0, fl = geometry.faces.length; f < fl; f ++ ) {
+        for (f = 0, fl = geometry.faces.length; f < fl; f++) {
 
-        face = geometry.faces[ f ];
-        face.centroid = new THREE.Vector3( 0, 0, 0 );
+            face = geometry.faces[f];
+            face.centroid = new THREE.Vector3(0, 0, 0);
 
-        if ( face instanceof THREE.Face3 ) {
+            if (face instanceof THREE.Face3) {
 
-            face.centroid.add( geometry.vertices[ face.a ] );
-            face.centroid.add( geometry.vertices[ face.b ] );
-            face.centroid.add( geometry.vertices[ face.c ] );
-            face.centroid.divideScalar( 3 );
+                face
+                    .centroid
+                    .add(geometry.vertices[face.a]);
+                face
+                    .centroid
+                    .add(geometry.vertices[face.b]);
+                face
+                    .centroid
+                    .add(geometry.vertices[face.c]);
+                face
+                    .centroid
+                    .divideScalar(3);
 
-        } else if ( face instanceof THREE.Face4 ) {
+            } else if (face instanceof THREE.Face4) {
 
-            face.centroid.add( geometry.vertices[ face.a ] );
-            face.centroid.add( geometry.vertices[ face.b ] );
-            face.centroid.add( geometry.vertices[ face.c ] );
-            face.centroid.add( geometry.vertices[ face.d ] );
-            face.centroid.divideScalar( 4 );
+                face
+                    .centroid
+                    .add(geometry.vertices[face.a]);
+                face
+                    .centroid
+                    .add(geometry.vertices[face.b]);
+                face
+                    .centroid
+                    .add(geometry.vertices[face.c]);
+                face
+                    .centroid
+                    .add(geometry.vertices[face.d]);
+                face
+                    .centroid
+                    .divideScalar(4);
+
+            }
 
         }
 
     }
-
-}
     function animate() {
         requestAnimationFrame(animate);
         render();
@@ -268,3 +274,13 @@ function computeFaceCentroids( geometry ) {
     return {scene: scene}
 
 })();
+
+// var materialArray = [];
+// materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/xpos.png' ) }));
+// materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/xneg.png' ) }));
+// materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/ypos.png' ) }));
+// materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/yneg.png' ) }));
+// materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/zpos.png' ) }));
+// materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/zneg.png' ) }));
+// var MovingCubeMat = new THREE.MeshFaceMaterial(materialArray);
+//https://soledadpenades.com/articles/three-js-tutorials/object-picking/

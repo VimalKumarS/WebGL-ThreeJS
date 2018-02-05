@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> </title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            font-family: Arial;
+            color: black;
+        }
+
+        .split-left {
+            height: 100%;
+            width: 30%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .split-right {
+          
+            width: 70%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            overflow-x: hidden;
+            
+        }
+
+        .left {
+            left: 0;
+            background-color: aliceblue;
+        }
+
+        .right {
+            right: 0;
+            background-color: ivory;
+        }
+
+        .file-input-wrapper {
+            width: 200px;
+            height: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .file-input-wrapper>input[type="file"] {
+            font-size: 200px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            opacity: 0;
+        }
+
+        .file-input-wrapper>.btn-file-input {
+            display: inline-block;
+            width: 200px;
+            height: 40px;
+        }
+
+        .file-input-wrapper:hover>.btn-file-input {
+            background-color: #aaa;
+        }
+        .selected-file-csv{
+            color: black;
+        }
+    </style>
+    <script src="js/three.js"></script>
+    <script src="js/Stats.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="lib/Projector.js"></script>
+    <script src="lib/jquery-1.8.3.min.js"></script>
+    <script src="index.js"></script>
+    <script>
+        $(document).ready(function () {        
+            var _container = new Container(jQuery);
+            _container.init();
+            _container.animate();
+            var _file = new fileUpload(jQuery,_container);
+            $('input[type="file"]').change(_file.uploadfile);
+            $('#btnShow').click(_file.loaddata.bind(this,event));
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="split-left left">
+        <div class="file-input-wrapper">
+            <button class="btn-file-input">Upload CSV file</button>
+            <input type="file" name="file" id="file-csv" />
+        </div>
+        <p id="selected-file-csv" class="selected-file-csv"></p>
+        <input type="button" value="Show output" id="btnShow">
+        <div id="data-output"></div>
+    </div>
+
+    <div class="split-right right">
+        <div id="webgl-container"></div>
+    </div>
+
+</body>
+
+</html>
